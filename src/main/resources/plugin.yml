@@ -1,14 +1,14 @@
 name: MoreArrows
 version: ${project.version}
 main: me.orangemonkey68.morearrowspaper.MoreArrows
-api-version: "1.15.1"
+api-version: "1.13"
 authors: [Orangemonkey68]
 description: Adds more arrow types to minecraft
 commands:
   explosivearrow:
     usage: explosivearrow [number]
+    permission: morearrows.explosivearrow
 permissions:
-  morearrows.debug:
-    description: Sends players debug logs
-    default: false
-
+  morearrows.explosivearrow:
+    description: allows explosive arrow command
+    default: op

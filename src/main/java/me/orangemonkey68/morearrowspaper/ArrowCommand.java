@@ -1,6 +1,5 @@
 package me.orangemonkey68.morearrowspaper;
 
-import com.sun.istack.internal.NotNull;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,8 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class ArrowCommand implements CommandExecutor {
+    @SuppressWarnings("NullableProblems")
     @Override
-    @NotNull
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;

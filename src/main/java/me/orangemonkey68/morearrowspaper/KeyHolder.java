@@ -8,5 +8,7 @@ public class KeyHolder {
     public static Plugin plugin = MoreArrows.getPlugin(MoreArrows.class);
     //Key to get object arrow type
     static public NamespacedKey typeKey = new NamespacedKey(plugin, "typeKey");
+    //Key to get bow power
+    static public NamespacedKey powerKey = new NamespacedKey(plugin, "powerKey");
 
 }
