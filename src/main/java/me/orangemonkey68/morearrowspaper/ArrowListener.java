@@ -12,32 +12,44 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.text.SimpleDateFormat;
-
 public class ArrowListener implements Listener {
 
     @EventHandler
     void arrowHit(ProjectileHitEvent e){
+
+
         executeArrow(e);
     }
 
     @EventHandler
     //What happens when the arrow is shot
     void arrowShoot(EntityShootBowEvent e){
-        Player player = (Player) e.getEntity();
-        e.getEntity().sendMessage("You shot an arrow!");
-        ItemStack shotItemStack = e.getArrowItem();
-        tagProjectile(e);
+        if(e.getEntity() instanceof Player){
+            Player player = (Player) e.getEntity();
+            e.getEntity().sendMessage("You shot an arrow!");
+            ItemStack shotItemStack = e.getArrowItem();
+            tagProjectile(e);
+        }
     }
 
     void executeArrow(ProjectileHitEvent e){
         String type = getType(e);
-        switch (type){
-            case "explosive":
-                Entity arrowEntity = e.getEntity();
-                World world = e.getEntity().getWorld();
+        if(type != null){
+            switch (type){
+                case "explosive":
+                    Entity arrowEntity = e.getEntity();
+                    World world = e.getEntity().getWorld();
 
-                world.createExplosion(arrowEntity.getLocation(), arrowPower(e), false, false, e.getEntity());
+                    double distance = ((Player) e.getEntity().getShooter()).getLocation().distance(arrowEntity.getLocation());
+
+                    if(distance > 6.5){
+                        world.createExplosion(arrowEntity.getLocation(), arrowPower(e), false, false, e.getEntity());
+                        arrowEntity.remove();
+                    }
+                    break;
+                case "normal":
+                    break;
+            }
         }
     }
 
@@ -49,26 +61,22 @@ public class ArrowListener implements Listener {
         if (entityData.has(KeyHolder.typeKey, PersistentDataType.STRING)){
             return entityData.get(KeyHolder.typeKey, PersistentDataType.STRING);
         } else{
-            String timePattern = "MM-dd-hh-mm-ss";
-            SimpleDateFormat time = new SimpleDateFormat(timePattern);
-            Bukkit.getLogger().info("There was an error getting the type data on that arrow at " + time);
-            return null;
+            return "normal";
         }
     }
 
     float arrowPower(ProjectileHitEvent e){
-        float draw;
+        float draw = 0;
+
         Entity arrow = e.getEntity();
         int ticksLived = e.getEntity().getTicksLived();
 
         PersistentDataContainer arrowData = arrow.getPersistentDataContainer();
         if(arrowData.has(KeyHolder.powerKey, PersistentDataType.FLOAT)){
             //noinspection ConstantConditions
-            draw = arrowData.get(KeyHolder.typeKey, PersistentDataType.FLOAT);
-        }else{
-            draw = 0;
+            draw = arrowData.get(KeyHolder.powerKey, PersistentDataType.FLOAT);
         }
-
+        Bukkit.getLogger().info(String.valueOf(draw));
         float precheckFloat = (float) ((ticksLived*0.1+2)*draw);
 
         if(precheckFloat < 10){
@@ -91,10 +99,9 @@ public class ArrowListener implements Listener {
         if(itemData.has(KeyHolder.typeKey, PersistentDataType.STRING)){
             type = itemData.get(KeyHolder.typeKey, PersistentDataType.STRING);
             entityData.set(KeyHolder.typeKey, PersistentDataType.STRING, type);
-        }else{
-            Bukkit.getLogger().info("Error with arrow type");
+            entityData.set(KeyHolder.powerKey, PersistentDataType.FLOAT, e.getForce());
         }
 
-        itemData.set(KeyHolder.powerKey, PersistentDataType.FLOAT, e.getForce());
+
     }
 }
