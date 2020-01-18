@@ -9,7 +9,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 public class ArrowExecutor {
-    //TODO: copy over arrow execution functions from ArrowListener
 
 
 
