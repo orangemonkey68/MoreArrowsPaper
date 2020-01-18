@@ -10,5 +10,7 @@ public class KeyHolder {
     static public NamespacedKey typeKey = new NamespacedKey(plugin, "typeKey");
     //Key to get bow power
     static public NamespacedKey powerKey = new NamespacedKey(plugin, "powerKey");
+    //explosive arrow recipe
+    static public NamespacedKey explosiveArrowRecipeKey = new NamespacedKey(plugin, "explosiveArrowRecipeKey");
 
 }

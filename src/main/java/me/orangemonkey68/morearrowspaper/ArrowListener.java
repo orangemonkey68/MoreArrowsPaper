@@ -24,6 +24,8 @@ public class ArrowListener implements Listener {
     @EventHandler
     //What happens when the arrow is shot
     void arrowShoot(EntityShootBowEvent e){
+
+
         if(e.getEntity() instanceof Player){
             Player player = (Player) e.getEntity();
             e.getEntity().sendMessage("You shot an arrow!");
@@ -35,6 +37,9 @@ public class ArrowListener implements Listener {
     void executeArrow(ProjectileHitEvent e){
         String type = getType(e);
         if(type != null){
+
+            ArrowExecutor executor = new ArrowExecutor();
+
             switch (type){
                 case "explosive":
                     Entity arrowEntity = e.getEntity();

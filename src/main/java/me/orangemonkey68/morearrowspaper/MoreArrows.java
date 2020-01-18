@@ -20,6 +20,8 @@ public final class MoreArrows extends JavaPlugin {
 
         //registers command
         this.getCommand("explosivearrow").setExecutor(new ArrowCommand());
+
+        this.getServer().addRecipe(RecipeHolder.explosiveArrow());
     }
 
     @Override
