@@ -17,6 +17,7 @@ public final class MoreArrows extends JavaPlugin {
         //Logs it loaded then registers listeners
         getLogger().info(ChatColor.RED + "MoreArrows LOADED");
         getServer().getPluginManager().registerEvents(new ArrowListener(), this);
+        getServer().getPluginManager().registerEvents(new FletchingTableListener(), this);
 
         //registers command
         this.getCommand("explosivearrow").setExecutor(new ArrowCommand());
